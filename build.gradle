@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+    id 'idea'
+}
+
+group 'com.twoautists'
+version '1.0.0-SNAPSHOT'
+
+description = "To boldly venture where many others have ventured before, but completelly ignorant."
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'org.lwjgl', name: 'lwjgl', version:'3.2.3'
+    compile group: 'org.lwjgl', name: 'lwjgl-glfw', version:'3.2.3'
+    compile group: 'org.lwjgl', name: 'lwjgl-opengl', version:'3.2.3'
+    compile group: 'org.lwjgl', name: 'lwjgl-stb', version:'3.2.3'
+    compile group: 'org.lwjgl', name: 'lwjgl', version:'3.2.3', classifier:'natives-windows'
+    compile group: 'org.lwjgl', name: 'lwjgl-opengl', version:'3.2.3', classifier:'natives-windows'
+    compile group: 'org.lwjgl', name: 'lwjgl-glfw', version:'3.2.3', classifier:'natives-windows'
+    compile group: 'org.lwjgl', name: 'lwjgl-stb', version:'3.2.3', classifier:'natives-windows'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
