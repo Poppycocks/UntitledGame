@@ -1,3 +1,9 @@
+import ConfigManager.ConfigManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.io.IoBuilder;
+import org.apache.logging.log4j.io.LoggerPrintStream;
+
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -14,27 +20,22 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class UntitledGame {
 
     // The window handle
+    private static final Logger log = LogManager.getLogger(UntitledGame.class);
     private long window;
 
     public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
-
         init();
         loop();
-
-        // Free the window callbacks and destroy the window
-        glfwFreeCallbacks(window);
-        glfwDestroyWindow(window);
-
-        // Terminate GLFW and free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
+        clear();
     }
 
     private void init() {
+        log.info("Initializing ");
+        ConfigManager configManager = ConfigManager.getInstance();
+
         // Setup an error callback. The default implementation
         // will print the error message in System.err.
-        GLFWErrorCallback.createPrint(System.err).set();
+        GLFWErrorCallback.createPrint(IoBuilder.forLogger(log).buildPrintStream()).set();
 
         // Initialize GLFW. Most GLFW functions will not work before doing this.
         if ( !glfwInit() )
@@ -106,6 +107,16 @@ public class UntitledGame {
             // invoked during this call.
             glfwPollEvents();
         }
+    }
+
+    private void clear(){
+        // Free the window callbacks and destroy the window
+        glfwFreeCallbacks(window);
+        glfwDestroyWindow(window);
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
     public static void main(String[] args) {
